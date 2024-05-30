@@ -3,8 +3,8 @@ let bcrypt = require("bcrypt");
 
 let salt = 10;
 
-let registrationSchema = new mongoose.Schema(
-  {
+let registrationSchema = new mongoose.Schema({
+  // try {
     name: {
       type: String,
       required: true,
@@ -58,10 +58,15 @@ let registrationSchema = new mongoose.Schema(
     },
     slug: {
       type: String,
-    },
+    },   
+    token: {
+      type: Array,
+      require: true
+    }
   },
   { timestamps: true }
 );
+
 
 //using middlware for salting the password
 registrationSchema.pre("save", async function (next) {
@@ -71,14 +76,19 @@ registrationSchema.pre("save", async function (next) {
     next();
   } 
   else {
-    throw new Error("all Field is required *");
+    throw new Error("all Field is required* ");
   }
 });
 
+// this is for the compare password by bcrypt
 registrationSchema.methods.comparePassword= async function(row,hash) {
-
-  let matchPassword= await bcrypt.compare(row,hash)
+  let matchPassword = await bcrypt.compare(row,hash)
   return matchPassword
+}
+
+// this is for the saving refresh token in db
+registrationSchema.methods.addToken = async function(refToken) {
+  await this.updateOne({$push: {token: refToken}})
 }
 
 //this is for registaration model

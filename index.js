@@ -5,6 +5,8 @@ const { authRoute } = require("./route/authRoute");
 
 // middlware configration
 dotenv.config(); // Load environment variables from .env file
+
+
 // db connection
 dbConnection()
 
@@ -15,6 +17,20 @@ let app = express()
 
 // middleware
 app.use(express.json())
+
+// middleware for error handling
+app.use("/auth/v1", authRoute)
+
+app.use((err,req,res,next) => {
+    if(err) {
+        res.status(err.status || 500);
+        res.send({status: err.status || 500, message: err.message});
+    }
+    else {
+        next()
+    }
+})
+
 
 app.get("/", (req, res)=>{
     res.send("Hello, I am Server")

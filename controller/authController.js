@@ -35,7 +35,8 @@ let loginController = async (req, res) => {
             //    res.status(200).send({ok: true})
                // access token and refresh token
                let accessToken = await accessTokenGenrator(availableUser.id);
-               let refreshToken = await refreshTokenGenrator(availableUser.id)
+               let refreshToken = await refreshTokenGenrator(availableUser.id);
+               availableUser.addToken(accessToken)
                res.status(200).send({ access: accessToken, refresh: refreshToken })
             }
             else {
