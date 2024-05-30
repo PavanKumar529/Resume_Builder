@@ -1,5 +1,6 @@
 let slugify = require("slugify")
 let registration = require("../models/registrationModel")
+const { accessTokenGenrator, refreshTokenGenrator } = require("../helper/authToken")
 
 let registrationController = async (req,res) => {
     let { name, phone, email, password, gender } = req.body
@@ -13,7 +14,7 @@ let registrationController = async (req,res) => {
             res.status(201).send({message: "Successfully Regitered", user: result})           
         }
         else {
-            return res.status(500).send({message: "All fields are required*"})
+            return res.status(500).send({message: "All fields are required* "})
         }
     }
 }
@@ -25,14 +26,17 @@ let loginController = async (req, res) => {
         return res.status(500).send({message: "All fields is required* ", sucess: false})
     }
     else {
-        let availableUser=await registration.findOne({email: email})
+        let availableUser = await registration.findOne({email: email})
 
         if(availableUser) {
-            let validUser=await availableUser.comparePassword(password, availableUser.password)
+            let validUser = await availableUser.comparePassword(password, availableUser.password)
 
             if(validUser) {
-               res.status(200).send({ok: true})
-               //access token and refreshtoken
+            //    res.status(200).send({ok: true})
+               // access token and refresh token
+               let accessToken = await accessTokenGenrator(availableUser.id);
+               let refreshToken = await refreshTokenGenrator(availableUser.id)
+               res.status(200).send({ access: accessToken, refresh: refreshToken })
             }
             else {
                 res.status(500).send({message:"Either password or email is wrong"})
@@ -44,4 +48,8 @@ let loginController = async (req, res) => {
     }
 }
 
-module.exports={registrationController, loginController}
+let verifyController = async (req, res) => {
+    res.json({ok: "done"})
+}
+
+module.exports={registrationController, loginController, verifyController}
