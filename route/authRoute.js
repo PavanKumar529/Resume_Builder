@@ -1,5 +1,5 @@
 let express = require("express")
-const { registrationController, loginController, verifyController } = require("../controller/authController")
+const { registrationController, loginController, verifyController, logoutController } = require("../controller/authController")
 const { verifyToken } = require("../helper/authToken")
 
 // Router level middleware
@@ -13,5 +13,8 @@ route.post("/signin", loginController)
 
 // token || GET
 route.get("/token", verifyToken, verifyController)
+
+// logout || GET
+route.get("/logout/:id", logoutController)
 
 module.exports = { authRoute: route }

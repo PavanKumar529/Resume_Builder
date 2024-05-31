@@ -2,6 +2,7 @@ let slugify = require("slugify")
 let registration = require("../models/registrationModel")
 const { accessTokenGenrator, refreshTokenGenrator } = require("../helper/authToken")
 
+// this is for registration
 let registrationController = async (req,res) => {
     let { name, phone, email, password, gender } = req.body
 
@@ -19,6 +20,7 @@ let registrationController = async (req,res) => {
     }
 }
 
+// this is for login
 let loginController = async (req, res) => {
     let { email, password } = req.body
 
@@ -49,8 +51,19 @@ let loginController = async (req, res) => {
     }
 }
 
+// this for the logout
+let logoutController = async (req, res) => {
+    let {id} = req.params
+    let token = req.headers.authorization
+    if(!token || !id) return res.status(402).send({message: "Something wrong while Logout", success: false})
+    let findUser = await registration.findById(id)
+    console.log(findUser);
+    res.send({token})
+}
+
+
 let verifyController = async (req, res) => {
     res.json({ok: "done"})
 }
 
-module.exports={registrationController, loginController, verifyController}
+module.exports={registrationController, loginController, verifyController, logoutController}
