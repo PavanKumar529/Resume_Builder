@@ -6,7 +6,6 @@ const { authRoute } = require("./route/authRoute");
 // middlware configration
 dotenv.config(); // Load environment variables from .env file
 
-
 // db connection
 dbConnection()
 
