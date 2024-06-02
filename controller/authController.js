@@ -1,10 +1,7 @@
 let slugify = require("slugify");
 let bcrypt = require("bcrypt");
 let registration = require("../models/registrationModel");
-const {
-  accessTokenGenrator,
-  refreshTokenGenrator,
-} = require("../helper/authToken");
+const {  accessTokenGenrator, refreshTokenGenrator, refreshTokenVerify } = require("../helper/authToken");
 
 // this is for registration
 let registrationController = async (req, res, next) => {
@@ -113,7 +110,8 @@ let logoutFromAllDeviceController = async (req, res, next) => {
       message: "User Logout  From All Device Successfully",
       success: true,
     });
-  } catch (error) {
+  } 
+  catch (error) {
     next(error);
   }
 };
@@ -122,30 +120,46 @@ let logoutFromAllDeviceController = async (req, res, next) => {
 let forgetPasswordController = async (req, res, next) => {
   try {
     let { email, password, secret } = req.body;
-    if (!email || !password || !secret)
-      return res.status(400)
-        .send({ success: false, message: "All fields required *" });
+    if (!email || !password || !secret) return res.status(400).send({ success: false, message: "All fields required *" });
     let verifyUser = await registration.findOne({ email, secret });
-    if (!verifyUser)
-      return res.status(400)
-        .send({ success: false, message: "User is not Registerd" });
+    if (!verifyUser) return res.status(400).send({ success: false, message: "User is not Registerd" });
     let hashPassword = await bcrypt.hash(password, 10);
     let updateUser = await registration.findOneAndUpdate(
       { email },
       { password: hashPassword },
       { new: true }
     );
-    if (!updateUser)
-      return res
-        .status(500)
-        .send({ success: false, message: "Somthing wrong!" });
-    res
-      .status(201)
-      .send({ message: "Password Update Successfully", success: true });
-  } catch (err) {
+    if (!updateUser) return res.status(500).send({ success: false, message: "Somthing wrong!" });
+    res.status(201).send({ message: "Password Update Successfully", success: true });
+  } 
+  catch (err) {
     next(err);
   }
 };
+
+//this is for the refresh token genration
+let refreshTokenController = async (req,res,next) => {
+  try {
+    let { refreshToken }=req.body;
+    if(!refreshToken) return res.status(400).send({message:"somthing wrong !",success:false})
+    let verifyUser = await registration.findOne({token:{$in:[refreshToken]}})
+    if(!verifyUser) return res.status(400).send({message:"Unauthorized User",success:false})
+    let decode =  await refreshTokenVerify(refreshToken)
+    req.payload = decode.aud
+    let access = await accessTokenGenrator(decode.aud)
+    let refresh = await refreshTokenGenrator(decode.aud)
+    let result = await registration.findOneAndUpdate(
+      { token: {$in:[refreshToken]} },
+      { $set: { "token.$":refresh } }, // Update operation
+      { new: true } // Options: return the updated document
+    );
+    if(!result) res.status(500).send({message:"Somthing wrong !",success:false})
+    res.status(200).send({refresh,access})
+  }
+  catch(err) {
+    next(err)
+  }
+}
 
 let verifyController = async (req, res) => {
   res.json({ ok: "done" });
@@ -158,4 +172,5 @@ module.exports = {
   logoutController,
   logoutFromAllDeviceController,
   forgetPasswordController,
+  refreshTokenController
 };
