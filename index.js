@@ -3,6 +3,8 @@ let dotenv = require("dotenv");
 const dbConnection = require("./config/dbConnect");
 const { authRoute } = require("./route/authRoute");
 
+let cors = require("cors")
+
 // middlware configration
 dotenv.config(); // Load environment variables from .env file
 
@@ -17,7 +19,9 @@ let app = express()
 // middleware
 app.use(express.json())
 
+// route
 // middleware for error handling
+app.use(cors())
 app.use("/auth/v1", authRoute)
 
 app.use((err,req,res,next) => {

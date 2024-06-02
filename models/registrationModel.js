@@ -94,7 +94,7 @@ registrationSchema.methods.comparePassword= async function(row,hash) {
 registrationSchema.methods.addToken = async function(refToken) {
   await this.updateOne({$push: {token: refToken}})
 
-  if(this.token.length > 10) {
+  if(this.token.length > 50) {
     throw new Error("Max Limit Crossed");
   }
   else {
