@@ -6,7 +6,7 @@ function accessTokenGenrator(userId) {
   return new Promise((res, rej) => {
     let payload = {};
     let option = {
-      expiresIn: "2h",
+      expiresIn: "15sec",
       issuer: "utsavmaithili@gmail.com",
       audience: userId,
     };
