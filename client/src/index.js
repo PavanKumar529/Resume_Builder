@@ -4,10 +4,78 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Layout from './components/layout/Layout'
+import Home from "./page/Home"
+import Contact from "./page/Contact"
+import About from "./page/About"
+import Login from "./page/Login"
+
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import RegisterForm from './page/Register';
+
+let route = createBrowserRouter( [{
+  path: "/",
+  element: <Layout/>,
+  children: [
+    {
+      path: "",
+      element: <Home/>
+    },
+    {
+      path: "contact",
+      element: <Contact/>
+    },
+    {
+      path: "about",
+      element: <About/>
+    },
+  // {
+  //   path: "products",
+  //   element: <Products/>,
+  //   children: [
+  //     {
+  //       path: "mobiles",
+  //       element: <Mobiles/>
+  //     },
+  //     {
+  //       path: "phones",
+  //       element: <Phones/>
+  //     },
+  //     {
+  //       path: "laptops",
+  //       element: <Laptops/>
+  //     },
+  //     {
+  //       path: "shoes",
+  //       element: <Shoes/>
+  //     }
+  //   ]
+  // },  
+  // {
+  //   path: "services",
+  //   element: <Services/>
+  // }
+  ]
+},
+{
+  path: "signup",
+  element: <RegisterForm/>
+},
+{
+  path: "signin",
+  element: <Login/>
+}
+])
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <RouterProvider router = { route }>
+      <ToastContainer>
+        <App />
+      </ToastContainer>
+    </RouterProvider>
   </React.StrictMode>
 );
 
