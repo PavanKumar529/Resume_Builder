@@ -1,60 +1,52 @@
 // src/components/layout/Layout.js
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import Header from './Header';
-import Footer from './Footer';
-import Aside from './Aside';
+import Header from './Nav';
+import Footer from '../components/layout/Footer';
+// import Aside from './Aside';
 import { styled } from '@mui/material/styles';
 
 const LayoutContainer = styled('div')({
-  display: 'grid',
-  gridTemplateColumns: '0.8fr 3fr',
-  gridTemplateRows: 'auto 1fr auto',
+  display: 'flex',
+  flexDirection: 'column',
   minHeight: '100vh',
-  gridTemplateAreas: `
-    "header header"
-    "aside main"
-    "footer footer"
-  `,
 });
 
 const HeaderContainer = styled('header')({
-  gridArea: 'header',
+  flex: '0 0 auto',
 });
 
-const AsideContainer = styled('aside')({
-  gridArea: 'aside',
-});
+// const AsideContainer = styled('aside')({
+//   flex: '0 0 auto',
+// });
 
 const MainContainer = styled('main')({
-  gridArea: 'main',
+  flex: '1 1 auto',
   padding: '16px',
 });
 
 const FooterContainer = styled('footer')({
-  gridArea: 'footer',
+  flex: '0 0 auto',
 });
 
 const Layout = () => {
   return (
     <LayoutContainer>
-      
       <HeaderContainer>
         <Header />
       </HeaderContainer>
 
-      <AsideContainer style={{background: "green"}}>
+      {/* <AsideContainer>
         <Aside />
-      </AsideContainer>
+      </AsideContainer> */}
 
-      <MainContainer style={{background: "blue"}}>
+      <MainContainer>
         <Outlet />
       </MainContainer>
 
-      <FooterContainer>
+      <FooterContainer style={{marginTop:"2rem"}}>
         <Footer />
       </FooterContainer>
-
     </LayoutContainer>
   );
 };

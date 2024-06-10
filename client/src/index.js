@@ -9,11 +9,15 @@ import Layout from './components/layout/Layout'
 import Home from "./page/Home"
 import Contact from "./page/Contact"
 import About from "./page/About"
-import Login from "./page/Login"
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import RegisterForm from './page/Register';
+
+import Layout2 from "./page/Layout"
+import Register from './page/Register';
+import Login from "./page/Login"
+
+
 
 let route = createBrowserRouter( [{
   path: "/",
@@ -59,13 +63,27 @@ let route = createBrowserRouter( [{
   // }
   ]
 },
+// {
+//   path: "signup",
+//   element: <RegisterForm/>
+// },
+// {
+//   path: "signin",
+//   element: <Login/>
+// }
 {
-  path: "signup",
-  element: <RegisterForm/>
-},
-{
-  path: "signin",
-  element: <Login/>
+  path: "/",
+  element: <Layout2/>,
+  children: [
+    {
+      path: "signup",
+      element: <Register/>
+    },
+    {
+      path: "signin",
+      element: <Login/>
+    }
+  ]
 }
 ])
 const root = ReactDOM.createRoot(document.getElementById('root'));

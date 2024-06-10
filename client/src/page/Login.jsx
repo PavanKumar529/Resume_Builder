@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Button, TextField, Typography, Container, Grid, Paper, Box } from '@mui/material';
+import { Button, TextField, Typography, Container, Grid, Paper } from '@mui/material';
 import { Link } from 'react-router-dom';
-import Navbar from './Nav'; // Ensure you import your Navbar component correctly
-import Footer from '../components/layout/Footer'; // Import Footer component if you have one
+// import Navbar from './Nav'; // Ensure you import your Navbar component correctly
+// import Footer from '../components/layout/Footer'; // Import Footer component if you have one
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
@@ -50,10 +50,10 @@ const LoginForm = () => {
 
   return (
     <>
-      <Navbar />
-      <Box display="flex" flexDirection="column" minHeight="100vh">
-        <Container maxWidth="xs" style={{ marginTop: '3rem', flexGrow: 1 }}>
-          <Paper elevation={3} style={{ padding: '2rem' }}>
+      {/* <Navbar /> */}
+      {/* <Box display="flex" flexDirection="column" minHeight="100vh"> */}
+        <Container maxWidth="xs" style={{ marginTop: '5rem', flexGrow: 1 }}>
+          <Paper elevation={8} style={{ padding: '2rem' }}>
             <Typography variant="h4" align="center" gutterBottom>
               Login
             </Typography>
@@ -95,10 +95,10 @@ const LoginForm = () => {
             </Typography>
           </Paper>
         </Container>
-        <Box mt="auto">
+        {/* <Box mt="auto">
           <Footer />
-        </Box>
-      </Box>
+        </Box> */}
+      {/* </Box> */}
     </>
   );
 };

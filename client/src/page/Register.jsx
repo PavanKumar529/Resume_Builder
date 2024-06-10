@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, TextField, Typography, Container, Grid, MenuItem, Paper, Box } from '@mui/material';
 import axios from 'axios';
-import Navbar from './Nav';
+// import Navbar from './Nav';
 import { Link } from 'react-router-dom';
 
 const RegisterForm = () => {
@@ -84,9 +84,9 @@ const RegisterForm = () => {
 
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <Container maxWidth="xs">
-        <Box component={Paper} elevation={8} p={2} mt={4}>
+        <Box component={Paper} elevation={8} p={5} >
           <Typography variant="h4" align="center" gutterBottom>
             Register
           </Typography>

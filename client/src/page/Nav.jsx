@@ -1,7 +1,7 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, Button, Container } from '@mui/material';
 import { Link } from 'react-router-dom'; // Assuming you're using React Router for navigation
-
+import Logo from '../assets/Logo.png'
 const Navbar = () => {
   return (
     <AppBar position="static">
@@ -10,7 +10,8 @@ const Navbar = () => {
           {/* Logo */}
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-              YourLogo
+              <img src={Logo} alt="Resume_Logo" style={{ width: '60px', height: 'auto' }} />
+              {/* YourLogo */}
             </Link>
           </Typography>
 

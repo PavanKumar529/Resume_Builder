@@ -20,10 +20,10 @@ const AsideLink = styled(Button)({
 function Aside() {
   return (
     <AsideContainer>
-      <AsideLink component={Link} to="/create-resume" variant="contained" color="primary">
+      <AsideLink component={Link} to="/create-resume" >
         Create Resume
       </AsideLink>
-      <AsideLink component={Link} to="/view-resume" variant="contained" color="primary">
+      <AsideLink component={Link} to="/view-resume" >
         View Resume
       </AsideLink>
       <AsideLink component={Link} to="/update-resume" variant="contained" color="primary">
